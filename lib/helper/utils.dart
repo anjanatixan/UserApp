@@ -48,3 +48,9 @@ showToast(BuildContext context, String message, Color color, Color textcolor) {
     duration: Duration(seconds: 3),
   ));
 }
+
+enum BlocStatus {
+  initial,
+  success,
+  error,
+}

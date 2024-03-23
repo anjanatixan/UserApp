@@ -1,126 +1,66 @@
-// To parse this JSON data, do
-//
-//     final userModel = userModelFromJson(jsonString);
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sampleuser/model/userConverter.dart';
+part 'user_model.freezed.dart';
+part 'user_model.g.dart';
 
-import 'dart:convert';
+@freezed
+class UserModel with _$UserModel {
+  const factory UserModel({
+    bool? success,
+    String? message,
+    int? totalUsers,
+    int? offset,
+    int? limit,
+    @UserConverter()
+    required List<User> users,
+  }) = _UserModel;
 
-UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
-
-String userModelToJson(UserModel data) => json.encode(data.toJson());
-
-class UserModel {
-    bool success;
-    String message;
-    int totalUsers;
-    int offset;
-    int limit;
-    List<User> users;
-
-    UserModel({
-        required this.success,
-        required this.message,
-        required this.totalUsers,
-        required this.offset,
-        required this.limit,
-        required this.users,
-    });
-
-    factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        success: json["success"],
-        message: json["message"],
-        totalUsers: json["total_users"],
-        offset: json["offset"],
-        limit: json["limit"],
-        users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "success": success,
-        "message": message,
-        "total_users": totalUsers,
-        "offset": offset,
-        "limit": limit,
-        "users": List<dynamic>.from(users.map((x) => x.toJson())),
-    };
+  factory UserModel.fromJson(Map<String, dynamic> userData) =>
+      _$UserModelFromJson(userData);
 }
 
-class User {
-    int id;
-    String gender;
-    DateTime dateOfBirth;
-    String job;
-    String city;
-    String zipcode;
-    double latitude;
-    String profilePicture;
-    String firstName;
-    String email;
-    String lastName;
-    String phone;
-    String street;
-    String state;
-    String country;
-    double longitude;
+@freezed
+class User with _$User {
+    const User._();
 
-    User({
-        required this.id,
-        required this.gender,
-        required this.dateOfBirth,
-        required this.job,
-        required this.city,
-        required this.zipcode,
-        required this.latitude,
-        required this.profilePicture,
-        required this.firstName,
-        required this.email,
-        required this.lastName,
-        required this.phone,
-        required this.street,
-        required this.state,
-        required this.country,
-        required this.longitude,
-    });
+  const factory User({
+    int? id,
+    String? gender,
+    @JsonKey(name: "date_of_birth")
+        DateTime? dateOfBirth,
+    String? job,
+    String? city,
+    String? zipcode,
+    double? latitude,
+    @JsonKey(name: "profile_picture")
+        String? profilePicture,
+    @JsonKey(name: "first_name")
+        String? firstName,
+    String? email,
+    @JsonKey(name: "last_name")
+        String? lastName,
+    String? phone,
+    String? street,
+    String? state,
+    String? country,
+    double? longitude,
+    @Default("981234567")
+        String? mob,
+  }) = _User;
 
-    factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        gender: json["gender"],
-        dateOfBirth: DateTime.parse(json["date_of_birth"]),
-        job: json["job"],
-        city: json["city"],
-        zipcode: json["zipcode"],
-        latitude: json["latitude"]?.toDouble(),
-        profilePicture: json["profile_picture"],
-        firstName: json["first_name"],
-        email: json["email"],
-        lastName: json["last_name"],
-        phone: json["phone"],
-        street: json["street"],
-        state: json["state"],
-        country: json["country"],
-        longitude: json["longitude"]?.toDouble(),
-    );
+  factory User.fromJson(Map<String, dynamic> userDetails) =>
+      _$UserFromJson(userDetails);
 
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "gender": gender,
-        "date_of_birth": dateOfBirth.toIso8601String(),
-        "job": job,
-        "city": city,
-        "zipcode": zipcode,
-        "latitude": latitude,
-        "profile_picture": profilePicture,
-        "first_name": firstName,
-        "email": email,
-        "last_name": lastName,
-        "phone": phone,
-        "street": street,
-        "state": state,
-        "country": country,
-        "longitude": longitude,
-    };
+  String getFormattedDateOfBirth() {
+    if (dateOfBirth != null) {
+      // Format date as dd-mm-yyyy
+      return "${dateOfBirth!.day.toString().padLeft(2, '0')}-"
+             "${dateOfBirth!.month.toString().padLeft(2, '0')}-"
+             "${dateOfBirth!.year}";
+    } else {
+      return "";
+    }
+  }
 }
-
-
-
-
+  
 
