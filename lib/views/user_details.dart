@@ -5,15 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sampleuser/bloc/data_list_bloc.dart';
 import 'package:sampleuser/helper/navigation.dart';
 
-class UserDetails extends StatefulWidget {
-  final int? count;
-  const UserDetails({super.key, required this.count});
+class UserDetails extends StatelessWidget {
+  // final int? count;
+  const UserDetails({super.key, });
 
-  @override
-  State<UserDetails> createState() => _UserDetailsState();
-}
-
-class _UserDetailsState extends State<UserDetails> {
   @override
   Widget build(BuildContext context) {
     var userBloc = BlocProvider.of<DataListBloc>(context, listen: true);
@@ -173,11 +168,12 @@ class _UserDetailsState extends State<UserDetails> {
                     OutlinedButton(
                         onPressed: () {
                           int? value=state.index;
-                          if (widget.count! >value!) {
-                           
+                          if (state.count!-1 ==value!) {
+                        
                           }else{
-                             context.read<DataListBloc>()
-                              ..add(Increment(state.index ?? 0));
+                             
+                            context.read<DataListBloc>()
+                              ..add(Increment(state.index ?? 0)); 
                           }
                         },
                         child: Text("Next")),

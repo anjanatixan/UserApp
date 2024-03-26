@@ -823,6 +823,7 @@ mixin _$DataListState {
   int? get index => throw _privateConstructorUsedError;
   int? get initialIndex => throw _privateConstructorUsedError;
   int? get count => throw _privateConstructorUsedError;
+  bool get isFetching => throw _privateConstructorUsedError;
   UserModel? get userModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -841,6 +842,7 @@ abstract class $DataListStateCopyWith<$Res> {
       int? index,
       int? initialIndex,
       int? count,
+      bool isFetching,
       UserModel? userModel});
 
   $UserModelCopyWith<$Res>? get userModel;
@@ -863,6 +865,7 @@ class _$DataListStateCopyWithImpl<$Res, $Val extends DataListState>
     Object? index = freezed,
     Object? initialIndex = freezed,
     Object? count = freezed,
+    Object? isFetching = null,
     Object? userModel = freezed,
   }) {
     return _then(_value.copyWith(
@@ -882,6 +885,10 @@ class _$DataListStateCopyWithImpl<$Res, $Val extends DataListState>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int?,
+      isFetching: null == isFetching
+          ? _value.isFetching
+          : isFetching // ignore: cast_nullable_to_non_nullable
+              as bool,
       userModel: freezed == userModel
           ? _value.userModel
           : userModel // ignore: cast_nullable_to_non_nullable
@@ -915,6 +922,7 @@ abstract class _$$DataListStateImplCopyWith<$Res>
       int? index,
       int? initialIndex,
       int? count,
+      bool isFetching,
       UserModel? userModel});
 
   @override
@@ -936,6 +944,7 @@ class __$$DataListStateImplCopyWithImpl<$Res>
     Object? index = freezed,
     Object? initialIndex = freezed,
     Object? count = freezed,
+    Object? isFetching = null,
     Object? userModel = freezed,
   }) {
     return _then(_$DataListStateImpl(
@@ -955,6 +964,10 @@ class __$$DataListStateImplCopyWithImpl<$Res>
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
               as int?,
+      isFetching: null == isFetching
+          ? _value.isFetching
+          : isFetching // ignore: cast_nullable_to_non_nullable
+              as bool,
       userModel: freezed == userModel
           ? _value.userModel
           : userModel // ignore: cast_nullable_to_non_nullable
@@ -971,6 +984,7 @@ class _$DataListStateImpl implements _DataListState {
       this.index,
       this.initialIndex,
       this.count,
+      required this.isFetching,
       this.userModel});
 
   @override
@@ -982,11 +996,13 @@ class _$DataListStateImpl implements _DataListState {
   @override
   final int? count;
   @override
+  final bool isFetching;
+  @override
   final UserModel? userModel;
 
   @override
   String toString() {
-    return 'DataListState(status: $status, index: $index, initialIndex: $initialIndex, count: $count, userModel: $userModel)';
+    return 'DataListState(status: $status, index: $index, initialIndex: $initialIndex, count: $count, isFetching: $isFetching, userModel: $userModel)';
   }
 
   @override
@@ -999,13 +1015,15 @@ class _$DataListStateImpl implements _DataListState {
             (identical(other.initialIndex, initialIndex) ||
                 other.initialIndex == initialIndex) &&
             (identical(other.count, count) || other.count == count) &&
+            (identical(other.isFetching, isFetching) ||
+                other.isFetching == isFetching) &&
             (identical(other.userModel, userModel) ||
                 other.userModel == userModel));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, index, initialIndex, count, userModel);
+  int get hashCode => Object.hash(
+      runtimeType, status, index, initialIndex, count, isFetching, userModel);
 
   @JsonKey(ignore: true)
   @override
@@ -1020,6 +1038,7 @@ abstract class _DataListState implements DataListState {
       final int? index,
       final int? initialIndex,
       final int? count,
+      required final bool isFetching,
       final UserModel? userModel}) = _$DataListStateImpl;
 
   @override
@@ -1030,6 +1049,8 @@ abstract class _DataListState implements DataListState {
   int? get initialIndex;
   @override
   int? get count;
+  @override
+  bool get isFetching;
   @override
   UserModel? get userModel;
   @override

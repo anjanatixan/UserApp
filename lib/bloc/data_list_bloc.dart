@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sampleuser/helper/utils.dart';
@@ -9,13 +11,12 @@ part 'data_list_bloc.freezed.dart';
 
 class DataListBloc extends Bloc<DataListEvent, DataListState> {
   UserRepo? userRepo;
-  int count = 20;
-
-
-  DataListBloc() : super(DataListState(status: BlocStatus.initial)) {
+  
+  
+  DataListBloc() : super(DataListState(status: BlocStatus.initial, isFetching: true)) {
     on<Started>((event, emit) async {
       userRepo = UserRepo();
-
+      int count = 20;
       UserModel? users = await userRepo!.getUserlist(count);
       emit(state.copyWith(userModel: users, status: BlocStatus.success));
     });
@@ -33,15 +34,13 @@ class DataListBloc extends Bloc<DataListEvent, DataListState> {
       emit(state.copyWith(index: event.initialIndex));
     });
 
-    on<updateCount>((event, emit) {
-      emit(state.copyWith(count: event.count));
+    on<updateCount>((event, emit) async{
+      emit(state.copyWith(count: event.count+10));
+      log("message"+state.count.toString());
+      UserModel? users = await userRepo?.getUserlist(state.count);
+
+      emit(state.copyWith(userModel: users, status: BlocStatus.success));
     });
   }
   }
-    
-    
-  // start(FetchUserDataList event, emit) {
-  //   // int data=    event.count;
-  //   // emit(state.copyWith(count:data));
-  // }
-
+ 

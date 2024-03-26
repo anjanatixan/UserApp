@@ -32,9 +32,9 @@ showLoading(BuildContext context) {
     },
   );
 }
-BuildContext getContext() {
-  return NavigationService.navigatorKey.currentContext!;
-}
+// BuildContext getContext() {
+//   return NavigationService.navigatorKey.currentContext!;
+// }
 
 showToast(BuildContext context, String message, Color color, Color textcolor) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

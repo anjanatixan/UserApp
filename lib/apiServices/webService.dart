@@ -1,107 +1,62 @@
-
-import 'dart:isolate';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:sampleuser/apiServices/baseService.dart';
 import 'package:sampleuser/apiServices/urls.dart';
 
 class ApiService extends BaseService {
+  Dio dio = Dio();
+
   @override
   Future deleteResponse(String url, var headers) async {
-    dynamic responseJson;
     try {
-      responseJson =
-          await http.delete(Uri.parse(Urls.BASE_URL + url), headers: headers);
-    } on Exception {
-      throw UnimplementedError();
-    }
-    return responseJson;
-  }
-
-  // @override
-  // Future getResponse(String url, headers) async {
-  //   dynamic responseJson;
-  //   try {
-  //     responseJson =
-  //         await http.get(Uri.parse(Urls.BASE_URL + url), headers: headers);
-  //     //log("get response" + Urls.BASE_URL + url);
-  //   } catch (e) {
-  //     throw e;
-  //   }
-  //   return responseJson;
-  // }
-
-  Future getResponse(String url, headers) async {
-    dynamic responseJson;
-    try {
-      // responseJson =
-      //     await http.get(Uri.parse(Urls.BASE_URL + url), headers: headers);
-      final response = ReceivePort();
-      await Isolate.spawn(
-          isolate, [Urls.BASE_URL + url, headers, response.sendPort]);
-      return await response.first;
-      // log("get response" + Urls.BASE_URL + url);
+      Response response = await dio.delete(Urls.BASE_URL + url,
+          options: Options(headers: headers));
+      return response.data;
     } catch (e) {
       throw e;
     }
   }
 
-  void isolate(List<dynamic> args) async {
-    final url = args[0];
-    final headers = args[1];
-    final sendPort = args[2];
-    dynamic responseJson;
+  @override
+  Future<Response?> getResponse(String url, headers) async {
     try {
-      final response = await http.get(Uri.parse(url), headers: headers);
-      responseJson = response;
-      
+      Response response = await dio.get(Urls.BASE_URL + url,
+          options: Options(headers: headers));
+      return response.data;
     } catch (e) {
-      throw e;
+      return null;
     }
-    sendPort.send(responseJson);
   }
 
   @override
   Future patchResponse(String url, body, headers) async {
-    var responseJson;
     try {
-      final response = await http.patch(Uri.parse(Urls.BASE_URL + url),
-          body: body, headers: headers);
-      if (response.statusCode == 200) {
-        responseJson = response;
-      } else {
-        responseJson = "{'message': 'error'}";
-      }
-    } on Exception {
-      throw UnimplementedError();
+      Response response = await dio.patch(Urls.BASE_URL + url,
+          data: body, options: Options(headers: headers));
+      return response.data;
+    } catch (e) {
+      throw e;
     }
-    return responseJson;
   }
 
   @override
   Future postResponse(String url, body, headers) async {
-    var responseJson;
     try {
-      final response = await http.post(Uri.parse(Urls.BASE_URL + url),
-          body: body, headers: headers);
-
-      responseJson = response;
-    } on Exception {
-      throw UnimplementedError();
+      Response response = await dio.post(Urls.BASE_URL + url,
+          data: body, options: Options(headers: headers));
+      return response.data;
+    } catch (e) {
+      throw e;
     }
-    return responseJson;
   }
 
   @override
   Future putResponse(String url, body, headers) async {
-    var responseJson;
     try {
-      final response = await http.put(Uri.parse(Urls.BASE_URL + url),
-          body: body, headers: headers);
-
-      responseJson = response;
-    } on Exception {
-      throw UnimplementedError();
+      Response response = await dio.put(Urls.BASE_URL + url,
+          data: body, options: Options(headers: headers));
+      return response.data;
+    } catch (e) {
+      throw e;
     }
-    return responseJson;
-  }  
+  }
 }

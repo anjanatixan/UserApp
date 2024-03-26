@@ -6,6 +6,6 @@ class DataListState with _$DataListState {
       {required BlocStatus status,
       int? index,
       int? initialIndex,
-      int? count,
+      int? count,required bool isFetching,
       UserModel? userModel}) = _DataListState;
 }
