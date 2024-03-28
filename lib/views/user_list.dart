@@ -7,8 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sampleuser/bloc/data_list_bloc.dart';
 import 'package:sampleuser/helper/utils.dart';
-import 'package:sampleuser/main.dart';
-import 'package:sampleuser/views/user_details.dart';
 
 class UserListScreen extends StatelessWidget {
   const UserListScreen({super.key});
@@ -16,20 +14,24 @@ class UserListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DataListBloc dataListBloc = GetIt.I<DataListBloc>();
-    return 
-    BlocProvider(
+    return BlocProvider(
       create: (context) => dataListBloc..add(Started()),
-      child: 
-      Scaffold(
+      child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.grey.shade100,
           centerTitle: true,
-          title: Text("Data",
+          title: Text(
+            "Data",
             style: GoogleFonts.lato(
                 fontSize: 15.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.w600),
+          ),
+        ),
+        drawer: Container(
+          child: ListView(
+            children: [],
           ),
         ),
         body: BlocBuilder<DataListBloc, DataListState>(
@@ -62,11 +64,10 @@ view_widget(DataListState state, BuildContext cnt) {
       controller: _scrollController
         ..addListener(() {
           log("111");
-       
+
           if (_scrollController.position.maxScrollExtent ==
               _scrollController.offset) {
-             
-           GetIt.I<DataListBloc>()
+            GetIt.I<DataListBloc>()
               ..add(updateCount(state.userModel?.users.length ?? 0));
           }
         }),
@@ -89,7 +90,9 @@ view_widget(DataListState state, BuildContext cnt) {
                 ..add(InitialIndex(index));
               await context.read<DataListBloc>()
                 ..add(updateCount(state.userModel?.users.length ?? 0));
-            GoRouter.of(context).push('/user_details/355', extra: context.read<DataListBloc>());
+              GoRouter.of(context).push('/user_details/355',
+                  // extra: context.read<DataListBloc>()
+                  );
               // Navigator.of(context).push(
               //   MaterialPageRoute(
               //     builder: (context) => BlocProvider.value(

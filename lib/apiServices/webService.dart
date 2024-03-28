@@ -17,13 +17,13 @@ class ApiService extends BaseService {
   }
 
   @override
-  Future<Response?> getResponse(String url, headers) async {
+  Future getResponse(String url, headers) async {
     try {
       Response response = await dio.get(Urls.BASE_URL + url,
           options: Options(headers: headers));
       return response.data;
     } catch (e) {
-      return null;
+      throw e;
     }
   }
 

@@ -15,10 +15,11 @@ final router = GoRouter(
     path: '/user_details/:userId',
     builder: (context, state) {
       String g=state.pathParameters['userId']??"";
-      return BlocProvider.value(
-                      value: state.extra as DataListBloc,
-                      child: UserDetails(),
-                    );
+      return UserDetails();
+      // return BlocProvider.value(
+      //                 value: state.extra as DataListBloc,
+      //                 child: UserDetails(),
+      //               );
     }
   
 

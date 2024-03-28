@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sampleuser/bloc/data_list_bloc.dart';
 import 'package:sampleuser/helper/navigation.dart';
 
 class UserDetails extends StatelessWidget {
   // final int? count;
-  const UserDetails({super.key, });
+  const UserDetails({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    var userBloc = BlocProvider.of<DataListBloc>(context, listen: true);
+    var userBloc = GetIt.I<DataListBloc>();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -160,20 +163,18 @@ class UserDetails extends StatelessWidget {
                         onPressed: () {
                           if (state.index == 0) {
                           } else {
-                            context.read<DataListBloc>()
+                          GetIt.I<DataListBloc>()
                               ..add(Decrement(state.index ?? 0));
                           }
                         },
                         child: Text("Previous")),
                     OutlinedButton(
                         onPressed: () {
-                          int? value=state.index;
-                          if (state.count!-1 ==value!) {
-                        
-                          }else{
-                             
-                            context.read<DataListBloc>()
-                              ..add(Increment(state.index ?? 0)); 
+                          int? value = state.index;
+                          if (state.count! - 1 == value!) {
+                          } else {
+                           GetIt.I<DataListBloc>()
+                              ..add(Increment(state.index ?? 0));
                           }
                         },
                         child: Text("Next")),
